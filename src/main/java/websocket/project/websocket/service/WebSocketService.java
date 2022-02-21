@@ -14,9 +14,15 @@ public class WebSocketService {
     public WebSocketService(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
+
     public void notifyFrontend(final String message){
         ResponseMessage response = new ResponseMessage(message);
-
         messagingTemplate.convertAndSend("/topic/messages", response);
     }
+
+    public void notifyUser(final String id, String message){
+        ResponseMessage response = new ResponseMessage(message);
+        messagingTemplate.convertAndSendToUser(id,"/topic/private-messages", response);
+    }
+
 }
