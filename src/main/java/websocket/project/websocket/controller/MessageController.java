@@ -7,11 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 import websocket.project.websocket.dto.Message;
 import websocket.project.websocket.dto.ResponseMessage;
+import websocket.project.websocket.service.NotificationService;
 
 import java.security.Principal;
 
 @Controller
 public class MessageController {
+
+    private NotificationService notificationService;
+
+    public MessageController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @MessageMapping("/message")
     @SendTo("/topic/messages")
@@ -21,6 +28,7 @@ public class MessageController {
         } catch(InterruptedException e){
             System.out.println(e);
         }
+        notificationService.sendGlobalNotification();
         return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
 
@@ -32,6 +40,7 @@ public class MessageController {
         } catch(InterruptedException e){
             System.out.println(e);
         }
+        notificationService.sendPrivateNotification(principal.getName());
         return new ResponseMessage(HtmlUtils
                 .htmlEscape("Sending Private Message to user "
                         + principal.getName() + ": " + message.getMessageContent())
