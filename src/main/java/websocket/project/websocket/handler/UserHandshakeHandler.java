@@ -12,12 +12,18 @@ import java.util.Map;
 import java.util.UUID;
 
 public class UserHandshakeHandler extends DefaultHandshakeHandler {
-    private final Logger LOG = LoggerFactory.getLogger(UserHandshakeHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserHandshakeHandler.class);
 
+    /**
+     * Cria o Handshake com o usuario recebendo uma request o websockethandler enviado pelo Stomp no javascript
+     * o usuario tem apenas um uuid random para indetificar
+     * TODO -> cirar um model para usuario inves de usar o do java security
+     * */
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         final String randomId = UUID.randomUUID().toString();
-        LOG.info("User with uuid '{}' opened the page!", randomId);
+        LOG.info("Usuario '{}' abriu a página!", randomId);
+
         return new UserPrincipal(randomId);
     }
 }

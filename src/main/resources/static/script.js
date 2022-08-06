@@ -2,7 +2,7 @@ var stompClient = null;
 var notificationCount = 0;
 
 $(document).ready(function() {
-    console.log("Index page is ready");
+    console.log("Pagina inical!");
     connect();
 
     $("#send").click(function() {
@@ -19,16 +19,20 @@ $(document).ready(function() {
 });
 
 function connect() {
+    /**SockJS cria um socket de conexao*/
     var socket = new SockJS('/our-websocket');
+    /**
+     * Stomp é responsavel por fazer o "chute das conexoes" sobre o socket criado com o SockJS
+     * */
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
+        console.log('Conectado: ' + frame);
         updateNotificationDisplay();
-        stompClient.subscribe('/topic/messages', function (message) {
-            showMessage(JSON.parse(message.body).content);
+        stompClient.subscribe('/topic/messages', msg => {
+            showMessage(JSON.parse(msg.body).content);
         });
-        stompClient.subscribe('/user/topic/private-messages', function (message) {
-            showMessage(JSON.parse(message.body).content);
+        stompClient.subscribe('/user/topic/private-messages', msg => {
+            showMessage(JSON.parse(msg.body).content);
         });
         stompClient.subscribe('/topic/global-notification', function (message) {
             notificationCount++;
@@ -46,12 +50,12 @@ function showMessage(message) {
 }
 
 function sendMessage() {
-    console.log("sending message");
+    console.log("Enviando mensagem");
     stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
 }
 
 function sendPrivateMessage() {
-    console.log("sending private message");
+    console.log("Enviando mensagem privada");
     stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
 }
 
