@@ -19,12 +19,11 @@ import java.time.Instant;
 
 /**
  * Controller responsavel por receber as mensagens
- *
  * */
 @RestController
 public class MessageController {
 
-    private NotificationService notificationService;
+    private final NotificationService notificationService;
 
     public MessageController(NotificationService notificationService) {
         this.notificationService = notificationService;
