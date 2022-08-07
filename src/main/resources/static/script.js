@@ -22,7 +22,8 @@ function connect() {
     /**SockJS cria um socket de conexao*/
     var socket = new SockJS('/our-websocket');
     /**
-     * Stomp é responsavel por fazer o "chute das conexoes" sobre o socket criado com o SockJS
+     * Stomp é responsavel por realizar as ações sobre o socket de conexão criado com o SockJS
+     * basicamente ele faz o envio das mensagens e também se inscreve no topic para receber as mensagens
      * */
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
