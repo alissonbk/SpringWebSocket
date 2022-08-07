@@ -10,4 +10,9 @@ class WebsocketApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void testeMuitoImportante() {
+		assert true != false;
+	}
+
 }

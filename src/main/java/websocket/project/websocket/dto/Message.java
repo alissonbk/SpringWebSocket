@@ -11,4 +11,5 @@ import java.time.Instant;
 public class Message {
     private String messageContent;
     private Instant date;
+    private int delay;
 }

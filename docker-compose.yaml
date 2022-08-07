@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+  ws:
+    image: ws:latest
+    networks:
+      - networkws
+    ports: 
+     - 5000:8080
+networks:
+  networkws:
+    driver: bridge

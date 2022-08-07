@@ -51,12 +51,17 @@ function showMessage(message) {
 
 function sendMessage() {
     console.log("Enviando mensagem");
-    stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
+    stompClient.send("/ws/message",
+        {},
+        JSON.stringify({'messageContent': $("#message").val(), 'delay': parseInt($("#delay").val())}),
+    );
 }
 
 function sendPrivateMessage() {
     console.log("Enviando mensagem privada");
-    stompClient.send("/ws/private-message", {}, JSON.stringify({'messageContent': $("#private-message").val()}));
+    stompClient.send("/ws/private-message",
+        {},
+        JSON.stringify({'messageContent': $("#private-message").val(), 'delay': parseInt($("#delay").val())}));
 }
 
 function updateNotificationDisplay(){

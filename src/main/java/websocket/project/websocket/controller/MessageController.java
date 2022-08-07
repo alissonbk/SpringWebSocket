@@ -4,6 +4,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 import websocket.project.websocket.dto.Message;
@@ -32,7 +34,7 @@ public class MessageController {
     @SendTo("/topic/messages")
     public ResponseMessage getMessage(Message message){
         try{
-            Thread.sleep(500);
+            Thread.sleep(message.getDelay());
         } catch(InterruptedException e){
             System.out.println(e);
         }
@@ -46,7 +48,7 @@ public class MessageController {
     @SendToUser("/topic/private-messages")
     public ResponseMessage getPrivateMessage(final Message message, final Principal principal){
         try{
-            Thread.sleep(500);
+            Thread.sleep(message.getDelay());
         } catch(InterruptedException e){
             System.out.println(e);
         }
