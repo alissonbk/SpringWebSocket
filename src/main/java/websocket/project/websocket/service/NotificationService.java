@@ -23,6 +23,7 @@ public class NotificationService {
 
     public void sendPrivateNotification(final String id){
         ResponseMessage message = new ResponseMessage("Global Notification");
+        //TODO -> aqui deve enviar um messaging template para cada usuario inscrito no canal
         messagingTemplate.convertAndSendToUser(id, "/topic/private-notification", message);
     }
 

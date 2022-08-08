@@ -16,25 +16,39 @@ $(document).ready(function() {
     $("#notifications").click(() => {
         resetNotificationCount();
     })
+
+    $("#substec").click(() => {
+        axios.get('/channels/subscribe/technology').then(
+            status => {
+                window.alert(status === true ? 'Sucesso!' : 'Erro');
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    })
 });
 
 function connect() {
-    /**SockJS cria um socket de conexao*/
+    /**SockJS cria um socket de conexao websocket com a api*/
     var socket = new SockJS('/our-websocket');
     /**
      * Stomp é responsavel por realizar as ações sobre o socket de conexão criado com o SockJS
      * basicamente ele faz o envio das mensagens e também se inscreve no topic para receber as mensagens
      * */
     stompClient = Stomp.over(socket);
+
     stompClient.connect({}, function (frame) {
         console.log('Conectado: ' + frame);
         updateNotificationDisplay();
+
         stompClient.subscribe('/topic/messages', msg => {
             showMessage(JSON.parse(msg.body).content);
         });
         stompClient.subscribe('/user/topic/private-messages', msg => {
             showMessage(JSON.parse(msg.body).content);
         });
+
         stompClient.subscribe('/topic/global-notification', function (message) {
             notificationCount++;
             updateNotificationDisplay();

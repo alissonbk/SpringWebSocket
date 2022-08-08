@@ -45,7 +45,7 @@ public class MessageController {
 
     @MessageMapping("/private-message")
     @SendToUser("/topic/private-messages")
-    public ResponseMessage getPrivateMessage(final Message message, final Principal principal){
+    public ResponseMessage getPrivateMessages(final Message message, final Principal principal){
         try{
             Thread.sleep(message.getDelay());
         } catch(InterruptedException e){

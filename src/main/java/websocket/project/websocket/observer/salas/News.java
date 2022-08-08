@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class News implements Publisher {
 
-    private static Set<Subscriber> subscribers = new HashSet<>();
+    public static Set<Subscriber> subscribers = new HashSet<>();
 
     @Override
     public void notify(Subscriber subscriber) {
