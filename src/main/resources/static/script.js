@@ -17,16 +17,69 @@ $(document).ready(function() {
         resetNotificationCount();
     })
 
+    /**
+     * Subscribe e unsubscribe nas salas
+     * */
     $("#substec").click(() => {
         axios.get('/channels/subscribe/technology').then(
-            status => {
-                window.alert(status === true ? 'Sucesso!' : 'Erro');
+            resp => {
+                resp.data === true ? $("#substec").css("background-color", "green") : '';
             },
             err => {
                 console.log(err);
             }
         )
-    })
+    });
+    $("#subssports").click(() => {
+        axios.get('/channels/subscribe/sports').then(
+            resp => {
+                resp.data === true ? $("#subssports").css("background-color", "green") : '';
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    });
+    $("#subnews").click(() => {
+        axios.get('/channels/subscribe/news').then(
+            resp => {
+                resp.data === true ? $("#subnews").css("background-color", "green") : '';
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    });
+    $("#unsubtec").click(() => {
+        axios.get('/channels/unsubscribe/technology').then(
+            resp => {
+                resp.data === true ? $("#substec").css("background-color", "") : '';
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    });
+    $("#unsubsports").click(() => {
+        axios.get('/channels/unsubscribe/sports').then(
+            resp => {
+                resp.data === true ? $("#subssports").css("background-color", "") : '';
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    });
+    $("#unsubnews").click(() => {
+        axios.get('/channels/unsubscribe/news').then(
+            resp => {
+                resp.data === true ? $("#subnews").css("background-color", "") : '';
+            },
+            err => {
+                console.log(err);
+            }
+        )
+    });
 });
 
 function connect() {

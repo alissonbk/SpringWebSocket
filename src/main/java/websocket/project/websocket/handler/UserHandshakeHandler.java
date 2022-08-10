@@ -4,15 +4,19 @@ import com.sun.security.auth.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+import websocket.project.websocket.model.User;
 
 import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 public class UserHandshakeHandler extends DefaultHandshakeHandler {
     private static final Logger LOG = LoggerFactory.getLogger(UserHandshakeHandler.class);
+    public static User user;
 
     /**
      * Cria o Handshake com o usuario recebendo uma request o websockethandler enviado pelo Stomp no javascript
@@ -21,9 +25,8 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
      * */
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        final String randomId = UUID.randomUUID().toString();
-        LOG.info("Usuario '{}' abriu a página!", randomId);
-
-        return new UserPrincipal(randomId);
+        user = new User();
+        LOG.info("Usuario '{}' fez o handshake!", user.getUuid());
+        return user;
     }
 }

@@ -1,5 +1,6 @@
 package websocket.project.websocket.observer.salas;
 
+import websocket.project.websocket.model.User;
 import websocket.project.websocket.observer.Publisher;
 import websocket.project.websocket.observer.Subscriber;
 
@@ -17,11 +18,19 @@ public class News implements Publisher {
 
     @Override
     public void addSubscriber(Subscriber subscriber) {
+        if(subscriber instanceof User) {
+            System.out.println("Usuario "
+                    + ((User) subscriber).getUuid() + " se inscreveu em News");
+        }
         subscribers.add(subscriber);
     }
 
     @Override
     public void removeSubscriber(Subscriber subscriber) {
+        if(subscriber instanceof User) {
+            System.out.println("Usuario "
+                    + ((User) subscriber).getUuid() + " se desinscreveu de News");
+        }
         subscribers.remove(subscriber);
     }
 }

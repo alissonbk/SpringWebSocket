@@ -2,6 +2,9 @@ package websocket.project.websocket.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import websocket.project.websocket.observer.Publisher;
 import websocket.project.websocket.observer.Subscriber;
@@ -9,6 +12,7 @@ import websocket.project.websocket.observer.salas.Technology;
 
 import javax.security.auth.Subject;
 import java.nio.file.attribute.UserPrincipal;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -19,7 +23,7 @@ import java.util.*;
  * */
 @Getter
 @Component
-public class User implements Subscriber{
+public class User implements Subscriber, Principal {
     /**
      * Lista de salas que esse usuario esta inscrito
      * nesse caso não é static como nas salas {@link Technology}.
@@ -41,4 +45,13 @@ public class User implements Subscriber{
         publisher.removeSubscriber(this);
     }
 
+    @Override
+    public String getName() {
+        return this.getUuid().toString();
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return Principal.super.implies(subject);
+    }
 }

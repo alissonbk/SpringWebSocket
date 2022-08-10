@@ -28,7 +28,7 @@ public class Technology implements Publisher {
     public void addSubscriber(Subscriber subscriber) {
         if(subscriber instanceof User) {
             System.out.println("Usuario "
-                    + ((User) subscriber).getUuid() + " se inscreveu em " + this.getClass().getName());
+                    + ((User) subscriber).getUuid() + " se inscreveu em Technology");
         }
         subscribers.add(subscriber);
     }
@@ -37,7 +37,7 @@ public class Technology implements Publisher {
     public void removeSubscriber(Subscriber subscriber) {
         if(subscriber instanceof User) {
             System.out.println("Usuario "
-                    + ((User) subscriber).getUuid() + " se desinscreveu de " + this.getClass().getName());
+                    + ((User) subscriber).getUuid() + " se desinscreveu de Technology");
         }
         subscribers.remove(subscriber);
     }
