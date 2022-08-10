@@ -31,7 +31,7 @@ public class User implements Subscriber, Principal {
      * */
     @SuppressWarnings("FieldMayBeFinal")
     private Set<Publisher> salas = new HashSet<>();
-    private final UUID uuid = UUID.randomUUID();
+    private UUID uuid = UUID.randomUUID();
 
     @Override
     public void subscribe(Publisher publisher) {
@@ -53,5 +53,9 @@ public class User implements Subscriber, Principal {
     @Override
     public boolean implies(Subject subject) {
         return Principal.super.implies(subject);
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

@@ -1,5 +1,6 @@
 var stompClient = null;
 var notificationCount = 0;
+var username = null;
 
 $(document).ready(function() {
     console.log("Pagina inical!");
@@ -21,7 +22,8 @@ $(document).ready(function() {
      * Subscribe e unsubscribe nas salas
      * */
     $("#substec").click(() => {
-        axios.get('/channels/subscribe/technology').then(
+        console.log(username);
+        axios.get(`/channels/subscribe/technology/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#substec").css("background-color", "green") : '';
             },
@@ -31,7 +33,7 @@ $(document).ready(function() {
         )
     });
     $("#subssports").click(() => {
-        axios.get('/channels/subscribe/sports').then(
+        axios.get(`/channels/subscribe/sports/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#subssports").css("background-color", "green") : '';
             },
@@ -41,7 +43,7 @@ $(document).ready(function() {
         )
     });
     $("#subnews").click(() => {
-        axios.get('/channels/subscribe/news').then(
+        axios.get(`/channels/subscribe/news/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#subnews").css("background-color", "green") : '';
             },
@@ -51,7 +53,7 @@ $(document).ready(function() {
         )
     });
     $("#unsubtec").click(() => {
-        axios.get('/channels/unsubscribe/technology').then(
+        axios.get(`/channels/unsubscribe/technology/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#substec").css("background-color", "") : '';
             },
@@ -61,7 +63,7 @@ $(document).ready(function() {
         )
     });
     $("#unsubsports").click(() => {
-        axios.get('/channels/unsubscribe/sports').then(
+        axios.get(`/channels/unsubscribe/sports/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#subssports").css("background-color", "") : '';
             },
@@ -71,7 +73,7 @@ $(document).ready(function() {
         )
     });
     $("#unsubnews").click(() => {
-        axios.get('/channels/unsubscribe/news').then(
+        axios.get(`/channels/unsubscribe/news/${username.toString()}`).then(
             resp => {
                 resp.data === true ? $("#subnews").css("background-color", "") : '';
             },
@@ -93,6 +95,7 @@ function connect() {
 
     stompClient.connect({}, function (frame) {
         console.log('Conectado: ' + frame);
+        username = frame.headers['user-name'];
         updateNotificationDisplay();
 
         stompClient.subscribe('/topic/messages', msg => {
