@@ -17,32 +17,17 @@ import java.util.*;
 
 /**
  * Usuario que acessa as salas de chat e é o unico subscriber;
- * Porque @Component -> como não tem implementação de security o usuario precisa ser definido
- * como uma Bean para poder saber qual usuario está fazendo a requisição no contexto
- * {@link websocket.project.websocket.controller.Channels }
+ * precisa implementar Principal por causa do UserHanshakeHandler
+ * {@link websocket.project.websocket.handler.UserHandshakeHandler}
  * */
 @Getter
-@Component
 public class User implements Subscriber, Principal {
-    /**
-     * Lista de salas que esse usuario esta inscrito
-     * nesse caso não é static como nas salas {@link Technology}.
-     * porque cada instancia de usuario tem uma lista diferente de salas
-     * */
-    @SuppressWarnings("FieldMayBeFinal")
-    private Set<Publisher> salas = new HashSet<>();
+    private String lastPublisher;
     private UUID uuid = UUID.randomUUID();
 
     @Override
-    public void subscribe(Publisher publisher) {
-        this.salas.add(publisher);
-        publisher.addSubscriber(this);
-    }
-
-    @Override
-    public void unsubscribe(Publisher publisher) {
-        this.salas.remove(publisher);
-        publisher.removeSubscriber(this);
+    public void update(String lastPublisher) {
+        this.lastPublisher = lastPublisher;
     }
 
     @Override
@@ -57,5 +42,22 @@ public class User implements Subscriber, Principal {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    /**
+     * Implementado equals and hashcode para poder utilizar o contains da forma desejada (comparando o uuid)
+     * metodo contains do java utiliza equals na impl... {@link Set#contains(Object)}
+     * */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(uuid, user.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 }

@@ -21,6 +21,9 @@ import java.util.UUID;
 @RequestMapping("channels")
 public class Channels {
     private final ApplicationContext context;
+    private final Sports sports = new Sports();
+    private final Technology technology = new Technology();
+    private final News news = new News();
 
     public Channels(ApplicationContext context) {
         this.context = context;
@@ -30,7 +33,8 @@ public class Channels {
     public Boolean subscribeIntoTechnology(@PathVariable String uuid) {
         User usuario = new User();
         usuario.setUuid(UUID.fromString(uuid));
-        usuario.subscribe(new Technology());
+
+        this.technology.subscribe(usuario);
         return Technology.subscribers.contains(usuario);
     }
 
@@ -38,7 +42,8 @@ public class Channels {
     public Boolean subscribeIntoNews(@PathVariable String uuid) {
         User usuario = new User();
         usuario.setUuid(UUID.fromString(uuid));
-        usuario.subscribe(new News());
+
+        this.news.subscribe(usuario);
         return News.subscribers.contains(usuario);
     }
 
@@ -46,28 +51,35 @@ public class Channels {
     public Boolean subscribeIntoSports(@PathVariable String uuid) {
         User usuario = new User();
         usuario.setUuid(UUID.fromString(uuid));
-        usuario.subscribe(new Sports());
+
+        this.sports.subscribe(usuario);
         return Sports.subscribers.contains(usuario);
     }
 
-    @GetMapping("/unsubscribe/technology")
-    public Boolean unsubscribeFromTechnology() {
-        User usuario = context.getBean(UserHandshakeHandler.class).user;
-        usuario.unsubscribe(new Technology());
+    @GetMapping("/unsubscribe/technology/{uuid}")
+    public Boolean unsubscribeFromTechnology(@PathVariable String uuid) {
+        User usuario = new User();
+        usuario.setUuid(UUID.fromString(uuid));
+
+        this.technology.unsubscribe(usuario);
         return !Technology.subscribers.contains(usuario);
     }
 
-    @GetMapping("/unsubscribe/sports")
-    public Boolean unsubscribeFromSports() {
-        User usuario = context.getBean(UserHandshakeHandler.class).user;
-        usuario.unsubscribe(new Sports());
+    @GetMapping("/unsubscribe/sports/{uuid}")
+    public Boolean unsubscribeFromSports(@PathVariable String uuid) {
+        User usuario = new User();
+        usuario.setUuid(UUID.fromString(uuid));
+
+        this.sports.unsubscribe(usuario);
         return !Sports.subscribers.contains(usuario);
     }
 
-    @GetMapping("/unsubscribe/news")
-    public Boolean unsubscribeFromNews() {
-        User usuario = context.getBean(UserHandshakeHandler.class).user;
-        usuario.unsubscribe(new News());
+    @GetMapping("/unsubscribe/news/{uuid}")
+    public Boolean unsubscribeFromNews(@PathVariable String uuid) {
+        User usuario = new User();
+        usuario.setUuid(UUID.fromString(uuid));
+
+        this.news.unsubscribe(usuario);
         return !News.subscribers.contains(usuario);
     }
 

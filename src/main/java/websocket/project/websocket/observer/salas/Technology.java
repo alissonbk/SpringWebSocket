@@ -1,13 +1,14 @@
 package websocket.project.websocket.observer.salas;
 
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import websocket.project.websocket.model.User;
 import websocket.project.websocket.observer.Publisher;
 import websocket.project.websocket.observer.Subscriber;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @Getter
 public class Technology implements Publisher {
@@ -17,28 +18,40 @@ public class Technology implements Publisher {
      * */
     @SuppressWarnings("FieldMayBeFinal")
     public static Set<Subscriber> subscribers = new HashSet<>();
+    private static final Logger LOG = LoggerFactory.getLogger(Technology.class);
 
     @Override
     public void notify(Subscriber subscriber) {
-        //TODO
+        subscriber.update("Technology");
         System.out.println(subscribers);
     }
 
     @Override
-    public void addSubscriber(Subscriber subscriber) {
-        if(subscriber instanceof User) {
-            System.out.println("Usuario "
-                    + ((User) subscriber).getUuid() + " se inscreveu em Technology");
+    public void subscribe(Subscriber subscriber) {
+        if(!subscribers.contains(subscriber)) {
+            subscribers.add(subscriber);
+            if(subscriber instanceof User) {
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em Technology");
+            }else {
+                LOG.warn("Subscriber adicionado não é um usuario!!!");
+            }
+        }else {
+            LOG.warn("Subscriber já existe na lista");
         }
-        subscribers.add(subscriber);
     }
 
     @Override
-    public void removeSubscriber(Subscriber subscriber) {
-        if(subscriber instanceof User) {
-            System.out.println("Usuario "
-                    + ((User) subscriber).getUuid() + " se desinscreveu de Technology");
+    public void unsubscribe(Subscriber subscriber) {
+        if(subscribers.contains(subscriber)) {
+            subscribers.remove(subscriber);
+            if(subscriber instanceof User) {
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se desinscreveu de Technology");
+            }else {
+                LOG.warn("Subscriber removido não é um usuario!!!");
+            }
+        }else {
+            LOG.warn("Subscriber não existe na lista!!");
         }
-        subscribers.remove(subscriber);
     }
+
 }
