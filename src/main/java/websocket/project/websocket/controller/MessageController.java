@@ -15,7 +15,9 @@ import websocket.project.websocket.service.NotificationService;
 import java.security.Principal;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Date;
 
 /**
  * Controller responsavel por receber as mensagens
@@ -24,6 +26,7 @@ import java.time.Instant;
 public class MessageController {
 
     private final NotificationService notificationService;
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     public MessageController(NotificationService notificationService) {
         this.notificationService = notificationService;
@@ -40,7 +43,7 @@ public class MessageController {
         notificationService.sendGlobalNotification();
         message.setDate(Instant.now());
         return new ResponseMessage(
-                HtmlUtils.htmlEscape(Time.from(message.getDate()) + ": " + message.getMessageContent()));
+                HtmlUtils.htmlEscape(sdf.format(Date.from(message.getDate())) + ": " + message.getMessageContent()));
     }
 
     @MessageMapping("/private-message")
@@ -54,7 +57,7 @@ public class MessageController {
         notificationService.sendPrivateNotification(principal.getName());
         message.setDate(Instant.now());
         return new ResponseMessage(HtmlUtils
-                .htmlEscape(Time.from(message.getDate()) + ": Enviando mensagem privada para o usuario:  "
+                .htmlEscape(sdf.format(Date.from(message.getDate())) + ": Enviando mensagem privada para o usuario:  "
                         + principal.getName() + ": " + message.getMessageContent())
         );
     }
