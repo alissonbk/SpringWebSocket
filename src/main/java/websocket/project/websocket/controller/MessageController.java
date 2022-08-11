@@ -49,16 +49,17 @@ public class MessageController {
     @MessageMapping("/private-message")
     @SendToUser("/topic/private-messages")
     public ResponseMessage getPrivateMessages(final Message message, final Principal principal){
+        message.setDate(Instant.now());
+        String msgToSend = sdf.format(Date.from(message.getDate())) + ": Enviando mensagem privada para o usuario:  "
+                + principal.getName() + ": " + message.getMessageContent();
+        //DELAY
         try{
             Thread.sleep(message.getDelay());
         } catch(InterruptedException e){
             System.out.println(e);
         }
-        notificationService.sendPrivateNotification(principal.getName());
-        message.setDate(Instant.now());
-        return new ResponseMessage(HtmlUtils
-                .htmlEscape(sdf.format(Date.from(message.getDate())) + ": Enviando mensagem privada para o usuario:  "
-                        + principal.getName() + ": " + message.getMessageContent())
-        );
+        notificationService.sendPrivateNotification(principal.getName(), msgToSend);
+
+        return new ResponseMessage(HtmlUtils.htmlEscape(msgToSend));
     }
 }

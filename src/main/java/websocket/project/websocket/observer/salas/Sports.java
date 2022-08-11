@@ -2,9 +2,12 @@ package websocket.project.websocket.observer.salas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import websocket.project.websocket.dto.ResponseMessage;
 import websocket.project.websocket.model.User;
 import websocket.project.websocket.observer.Publisher;
 import websocket.project.websocket.observer.Subscriber;
+import websocket.project.websocket.utils.NotificationUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,10 +16,19 @@ public class Sports implements Publisher {
 
     public static Set<Subscriber> subscribers = new HashSet<>();
     private static final Logger LOG = LoggerFactory.getLogger(Sports.class);
+    private NotificationUtils notificationUtils = new NotificationUtils();
 
     @Override
-    public void notify(Subscriber subscriber) {
-        subscriber.update("Sports");
+    public void notify(String id, String message, SimpMessagingTemplate messagingTemplate) {
+        ResponseMessage notificationMessage = new ResponseMessage("Private Notification");
+        ResponseMessage msgToSend = new ResponseMessage(message);
+        Set<User> usuarios = notificationUtils.getUsersToSendMessage(id);
+        usuarios.forEach( u -> {
+            messagingTemplate.convertAndSendToUser(u.getName(),
+                    "/topic/private-notification", notificationMessage);
+            messagingTemplate.convertAndSendToUser(u.getName(),
+                    "/topic/private-messages", msgToSend);
+        });
     }
 
     @Override

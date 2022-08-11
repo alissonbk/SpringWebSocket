@@ -28,7 +28,7 @@ public class WebSocketService {
 
     public void notifyUser(final String id, String message){
         ResponseMessage response = new ResponseMessage(message);
-        notificationService.sendPrivateNotification(id);
+        notificationService.sendPrivateNotification(id, message);
         messagingTemplate.convertAndSendToUser(id,"/topic/private-messages", response);
     }
 
