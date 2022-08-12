@@ -26,6 +26,11 @@ public class WebSocketService {
         messagingTemplate.convertAndSend("/topic/messages", response);
     }
 
+
+    /**
+     * Está sendo utilizado o notify dos canais ao inves desse
+     * ex: {@link websocket.project.websocket.service.observer.Technology}
+     * */
     public void notifyUser(final String id, String message){
         ResponseMessage response = new ResponseMessage(message);
         notificationService.sendPrivateNotification(id, message);

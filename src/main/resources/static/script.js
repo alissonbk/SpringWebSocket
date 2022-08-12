@@ -86,7 +86,7 @@ $(document).ready(function() {
 
 function connect() {
     /**SockJS cria um socket de conexao websocket com a api*/
-    var socket = new SockJS('/our-websocket');
+    var socket = new SockJS('/websocket-handshake');
     /**
      * Stomp é responsavel por realizar as ações sobre o socket de conexão criado com o SockJS
      * basicamente ele faz o envio das mensagens e também se inscreve no topic para receber as mensagens

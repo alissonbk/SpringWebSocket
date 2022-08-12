@@ -1,21 +1,26 @@
-package websocket.project.websocket.service.observer.salas;
+package websocket.project.websocket.service.observer;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 import websocket.project.websocket.dto.ResponseMessage;
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.service.observer.Publisher;
-import websocket.project.websocket.service.observer.Subscriber;
 import websocket.project.websocket.utils.NotificationUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class News implements Publisher {
-
+@Service
+public class Technology implements Publisher {
+    /**
+     * Lista dos inscritos nessa sala
+     * static pq todos que instanciam Tecnologia devem acessar a mesma lista
+     * */
+    @SuppressWarnings("FieldMayBeFinal")
     public static Set<Subscriber> subscribers = new HashSet<>();
-    private static final Logger LOG = LoggerFactory.getLogger(News.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Technology.class);
     private NotificationUtils notificationUtils = new NotificationUtils();
 
 
@@ -40,7 +45,7 @@ public class News implements Publisher {
         if(!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
             if(subscriber instanceof User) {
-                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em News");
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em Technology");
             }else {
                 LOG.warn("Subscriber adicionado não é um usuario!!!");
             }
@@ -54,7 +59,7 @@ public class News implements Publisher {
         if(subscribers.contains(subscriber)) {
             subscribers.remove(subscriber);
             if(subscriber instanceof User) {
-                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se desinscreveu de News");
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se desinscreveu de Technology");
             }else {
                 LOG.warn("Subscriber removido não é um usuario!!!");
             }
@@ -62,4 +67,5 @@ public class News implements Publisher {
             LOG.warn("Subscriber não existe na lista!!");
         }
     }
+
 }

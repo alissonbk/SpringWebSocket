@@ -26,7 +26,7 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         user = new User();
-        LOG.info("Usuario '{}' fez o handshake!", user.getUuid());
+        LOG.info("Usuario " + user.getName() + " fez o handshake!");
         return user;
     }
 }

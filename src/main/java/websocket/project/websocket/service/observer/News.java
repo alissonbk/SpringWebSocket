@@ -1,21 +1,21 @@
-package websocket.project.websocket.service.observer.salas;
+package websocket.project.websocket.service.observer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 import websocket.project.websocket.dto.ResponseMessage;
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.service.observer.Publisher;
-import websocket.project.websocket.service.observer.Subscriber;
 import websocket.project.websocket.utils.NotificationUtils;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Sports implements Publisher {
+@Service
+public class News implements Publisher {
 
     public static Set<Subscriber> subscribers = new HashSet<>();
-    private static final Logger LOG = LoggerFactory.getLogger(Sports.class);
+    private static final Logger LOG = LoggerFactory.getLogger(News.class);
     private NotificationUtils notificationUtils = new NotificationUtils();
 
 
@@ -40,7 +40,7 @@ public class Sports implements Publisher {
         if(!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
             if(subscriber instanceof User) {
-                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em Sports");
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em News");
             }else {
                 LOG.warn("Subscriber adicionado não é um usuario!!!");
             }
@@ -54,7 +54,7 @@ public class Sports implements Publisher {
         if(subscribers.contains(subscriber)) {
             subscribers.remove(subscriber);
             if(subscriber instanceof User) {
-                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se desinscreveu de Sports");
+                LOG.info("Usuario " + ((User) subscriber).getUuid() + " se desinscreveu de News");
             }else {
                 LOG.warn("Subscriber removido não é um usuario!!!");
             }

@@ -1,9 +1,10 @@
 package websocket.project.websocket.utils;
 
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.service.observer.salas.News;
-import websocket.project.websocket.service.observer.salas.Sports;
-import websocket.project.websocket.service.observer.salas.Technology;
+import websocket.project.websocket.service.observer.News;
+import websocket.project.websocket.service.observer.Publisher;
+import websocket.project.websocket.service.observer.Sports;
+import websocket.project.websocket.service.observer.Technology;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,4 +44,28 @@ public class NotificationUtils {
         }
         return usersIds;
     }
+
+    /**
+     * Utilizado para notificação
+     * */
+    public Set<Publisher> getChannelsToNotify(String id) {
+        Set<Publisher> publishers = new HashSet<>();
+        Technology.subscribers.forEach(s -> {
+            if(s instanceof User && ((User) s).getName().equals(id)) {
+                publishers.add(new Technology());
+            }
+        });
+        News.subscribers.forEach(s -> {
+            if(s instanceof User && ((User) s).getName().equals(id)) {
+                publishers.add(new News());
+            }
+        });
+        Sports.subscribers.forEach(s -> {
+            if(s instanceof User && ((User) s).getName().equals(id)) {
+                publishers.add(new Sports());
+            }
+        });
+        return publishers;
+    }
+
 }

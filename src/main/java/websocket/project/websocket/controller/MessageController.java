@@ -50,7 +50,7 @@ public class MessageController {
     @SendToUser("/topic/private-messages")
     public ResponseMessage getPrivateMessages(final Message message, final Principal principal){
         message.setDate(Instant.now());
-        String msgToSend = sdf.format(Date.from(message.getDate())) + ": Enviando mensagem privada para o usuario:  "
+        String msgToSend = sdf.format(Date.from(message.getDate())) + ": Usuario "
                 + principal.getName() + ": " + message.getMessageContent();
         //DELAY
         try{

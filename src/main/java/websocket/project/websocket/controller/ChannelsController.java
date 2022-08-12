@@ -6,22 +6,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.service.observer.salas.News;
-import websocket.project.websocket.service.observer.salas.Sports;
-import websocket.project.websocket.service.observer.salas.Technology;
+import websocket.project.websocket.service.observer.News;
+import websocket.project.websocket.service.observer.Sports;
+import websocket.project.websocket.service.observer.Technology;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("channels")
-public class Channels {
+public class ChannelsController {
     private final ApplicationContext context;
-    private final Sports sports = new Sports();
-    private final Technology technology = new Technology();
-    private final News news = new News();
+    private final Sports sports;
+    private final Technology technology;
+    private final News news;
 
-    public Channels(ApplicationContext context) {
+    public ChannelsController(ApplicationContext context, Sports sports, Technology technology, News news) {
         this.context = context;
+        this.sports = sports;
+        this.technology = technology;
+        this.news = news;
     }
 
     @GetMapping("/subscribe/technology/{uuid}")
