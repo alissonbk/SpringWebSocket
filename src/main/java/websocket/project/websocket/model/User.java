@@ -1,6 +1,7 @@
 package websocket.project.websocket.model;
 
 import lombok.Getter;
+import websocket.project.websocket.service.observer.Publisher;
 import websocket.project.websocket.service.observer.Subscriber;
 
 import javax.security.auth.Subject;
@@ -14,11 +15,11 @@ import java.util.*;
  * */
 @Getter
 public class User implements Subscriber, Principal {
-    private String lastPublisher;
+    private Publisher lastPublisher;
     private UUID uuid = UUID.randomUUID();
 
     @Override
-    public void update(String lastPublisher) {
+    public void update(Publisher lastPublisher) {
         this.lastPublisher = lastPublisher;
     }
 

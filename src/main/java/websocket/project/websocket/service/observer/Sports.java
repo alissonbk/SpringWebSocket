@@ -39,6 +39,7 @@ public class Sports implements Publisher {
     public void subscribe(Subscriber subscriber) {
         if(!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
+            subscriber.update(new Sports());
             if(subscriber instanceof User) {
                 LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em Sports");
             }else {

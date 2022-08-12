@@ -44,6 +44,7 @@ public class Technology implements Publisher {
     public void subscribe(Subscriber subscriber) {
         if(!subscribers.contains(subscriber)) {
             subscribers.add(subscriber);
+            subscriber.update(new Technology());
             if(subscriber instanceof User) {
                 LOG.info("Usuario " + ((User) subscriber).getUuid() + " se inscreveu em Technology");
             }else {
