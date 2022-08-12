@@ -1,4 +1,4 @@
-package websocket.project.websocket.observer;
+package websocket.project.websocket.service.observer;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 

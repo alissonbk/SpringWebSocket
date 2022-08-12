@@ -1,17 +1,9 @@
 package websocket.project.websocket.model;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-import websocket.project.websocket.observer.Publisher;
-import websocket.project.websocket.observer.Subscriber;
-import websocket.project.websocket.observer.salas.Technology;
+import websocket.project.websocket.service.observer.Subscriber;
 
 import javax.security.auth.Subject;
-import java.nio.file.attribute.UserPrincipal;
 import java.security.Principal;
 import java.util.*;
 

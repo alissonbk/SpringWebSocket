@@ -1,9 +1,9 @@
 package websocket.project.websocket.utils;
 
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.observer.salas.News;
-import websocket.project.websocket.observer.salas.Sports;
-import websocket.project.websocket.observer.salas.Technology;
+import websocket.project.websocket.service.observer.salas.News;
+import websocket.project.websocket.service.observer.salas.Sports;
+import websocket.project.websocket.service.observer.salas.Technology;
 
 import java.util.HashSet;
 import java.util.Set;

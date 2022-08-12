@@ -1,13 +1,12 @@
-package websocket.project.websocket.observer.salas;
+package websocket.project.websocket.service.observer.salas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import websocket.project.websocket.dto.ResponseMessage;
-import websocket.project.websocket.handler.UserHandshakeHandler;
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.observer.Publisher;
-import websocket.project.websocket.observer.Subscriber;
+import websocket.project.websocket.service.observer.Publisher;
+import websocket.project.websocket.service.observer.Subscriber;
 import websocket.project.websocket.utils.NotificationUtils;
 
 import java.util.HashSet;
@@ -19,16 +18,20 @@ public class News implements Publisher {
     private static final Logger LOG = LoggerFactory.getLogger(News.class);
     private NotificationUtils notificationUtils = new NotificationUtils();
 
+
     @Override
     public void notify(String id, String message, SimpMessagingTemplate messagingTemplate) {
         ResponseMessage notificationMessage = new ResponseMessage("Private Notification");
         ResponseMessage msgToSend = new ResponseMessage(message);
         Set<User> usuarios = notificationUtils.getUsersToSendMessage(id);
         usuarios.forEach( u -> {
-            messagingTemplate.convertAndSendToUser(u.getName(),
-                    "/topic/private-notification", notificationMessage);
-            messagingTemplate.convertAndSendToUser(u.getName(),
-                    "/topic/private-messages", msgToSend);
+            //Para o usuario que enviar não ter msg duplicada
+            if(!u.getName().equals(id)) {
+                messagingTemplate.convertAndSendToUser(u.getName(),
+                        "/topic/private-notification", notificationMessage);
+                messagingTemplate.convertAndSendToUser(u.getName(),
+                        "/topic/private-messages", msgToSend);
+            }
         });
     }
 

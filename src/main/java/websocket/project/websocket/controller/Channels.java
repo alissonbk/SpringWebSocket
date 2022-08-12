@@ -1,19 +1,14 @@
 package websocket.project.websocket.controller;
 
-import com.sun.net.httpserver.Headers;
 import org.springframework.context.ApplicationContext;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import websocket.project.websocket.configuration.WebSocketConfig;
-import websocket.project.websocket.handler.UserHandshakeHandler;
 import websocket.project.websocket.model.User;
-import websocket.project.websocket.observer.salas.News;
-import websocket.project.websocket.observer.salas.Sports;
-import websocket.project.websocket.observer.salas.Technology;
+import websocket.project.websocket.service.observer.salas.News;
+import websocket.project.websocket.service.observer.salas.Sports;
+import websocket.project.websocket.service.observer.salas.Technology;
 
 import java.util.UUID;
 

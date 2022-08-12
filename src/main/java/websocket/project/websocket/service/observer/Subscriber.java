@@ -1,4 +1,4 @@
-package websocket.project.websocket.observer;
+package websocket.project.websocket.service.observer;
 
 public interface Subscriber {
 
